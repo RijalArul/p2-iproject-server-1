@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       unique: {
         args: true,
-        msg: "Username must be required"
+        msg: "Username is already exists"
       }
     },
     email: {

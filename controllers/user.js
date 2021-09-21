@@ -3,7 +3,7 @@ const generateToken = require('../helpers/jwt');
 const { User } = require('../models');
 
 class UserController {
-    static async register(req, res) {
+    static async register(req, res, next) {
         try {
             const payload = {
                 username: req.body.username,
@@ -19,11 +19,11 @@ class UserController {
                 email: create.email
             })
         } catch (err) {
-            res.send(err)
+            next(err)
         }
     }
 
-    static async login(req, res) {
+    static async login(req, res, next) {
         try {
             const payload = {
                 email: req.body.email,
@@ -53,7 +53,7 @@ class UserController {
                 throw ({ name: "UserNotFound" });
             }
         } catch (err) {
-            res.send(err)
+            next(err)
         }
     }
 }

@@ -17,8 +17,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Day.init({
-    date: DataTypes.DATE,
-    userId: DataTypes.INTEGER
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: {
+          args: true,
+          msg: "Date is required"
+        },
+        isAfter: {
+          args: new Date(),
+          msg: "Date must be after this day"
+        }
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Day',

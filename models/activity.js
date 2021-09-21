@@ -21,11 +21,60 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Activity.init({
-    time: DataTypes.TIME,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    dayId: DataTypes.INTEGER
+    time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Date is required"
+        },
+        isAfter: {
+          args: new Date(),
+          msg: "Hours must be after this time"
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Description is required"
+        },
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "status is required"
+        },
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "User ID is required"
+        },
+      }
+    },
+    dayId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Day Id is required"
+        },
+      }
+    }
   }, {
     sequelize,
     modelName: 'Activity',

@@ -9,10 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       date: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       userId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       createdAt: {
         allowNull: false,

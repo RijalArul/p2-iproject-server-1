@@ -11,11 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Activity.belongsTo(models.User, {
+        foreignKey: 'userId'
+      })
+
+      Activity.belongsTo(models.Day, {
+        foreignKey: 'dayId'
+      })
     }
   };
   Activity.init({
     time: DataTypes.TIME,
     description: DataTypes.STRING,
+    status: DataTypes.STRING,
     userId: DataTypes.INTEGER,
     dayId: DataTypes.INTEGER
   }, {

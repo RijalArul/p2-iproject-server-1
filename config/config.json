@@ -1,17 +1,17 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Ajitimur471",
-    "database": "ip_p2",
+    "password": "postgres",
+    "database": "database-ip2-server",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
+    "username": "postgres",
+    "password": "postgres",
     "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "localhost",
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",

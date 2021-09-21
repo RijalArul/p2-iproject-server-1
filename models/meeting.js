@@ -18,25 +18,23 @@ module.exports = (sequelize, DataTypes) => {
   };
   Meeting.init({
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
-        isDate: {
+        notEmpty: {
           args: true,
           msg: "Date must be required"
         },
-        isAfter: new Date()
       }
     },
     time: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
       validate: {
         notEmpty: {
           args: true,
           msg: "time must be required"
         },
-        isAfter: new Date()
       }
     },
     activity: {
@@ -66,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: "User Id must be required"
+          msg: "User ID must be required"
         }
       }
     }

@@ -29,10 +29,7 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: "Date is required"
         },
-        isAfter: {
-          args: new Date(),
-          msg: "Hours must be after this time"
-        }
+        isAfter: new Date()
       }
     },
     description: {

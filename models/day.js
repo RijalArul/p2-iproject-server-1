@@ -25,10 +25,7 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: "Date is required"
         },
-        isAfter: {
-          args: new Date(),
-          msg: "Date must be after this day"
-        }
+        isAfter: new Date()
       }
     },
     userId: {

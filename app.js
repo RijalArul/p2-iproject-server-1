@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const routes = require('./routes/index');
+
+app.use(routes)
+
 app.listen(PORT, () => {
     console.log(`App listen on port ${PORT}`)
 })

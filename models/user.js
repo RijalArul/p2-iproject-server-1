@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
 
-      User.belongsToMany(models.Activity, {
-        through: models.Day,
+      User.belongsToMany(models.Day, {
+        through: models.Activity,
         foreignKey: 'userId'
       })
     }
@@ -79,10 +79,6 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: "Phone Number must be required"
-        },
-        max: {
-          args: [12],
-          msg: "Maximum 12 characters in Phone Number"
         },
         min: {
           args: [8],

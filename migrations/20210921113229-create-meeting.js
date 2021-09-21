@@ -1,18 +1,26 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Activities', {
+    await queryInterface.createTable('Meetings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      date: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
       time: {
         allowNull: false,
         type: Sequelize.TIME
       },
-      description: {
+      activity: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
+      status: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -26,20 +34,6 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
-      dayId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Days',
-          key: 'id'
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-      },
-      status: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -51,6 +45,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Activities');
+    await queryInterface.dropTable('Meetings');
   }
 };

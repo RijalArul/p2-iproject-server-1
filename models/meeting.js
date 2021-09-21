@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Activity extends Model {
+  class Meeting extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,35 +11,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Activity.belongsTo(models.User, {
+      Meeting.belongsTo(models.User, {
         foreignKey: 'userId'
-      })
-
-      Activity.belongsTo(models.Day, {
-        foreignKey: 'dayId'
       })
     }
   };
-  Activity.init({
+  Meeting.init({
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: {
+          args: true,
+          msg: "Date must be required"
+        },
+        isAfter: new Date()
+      }
+    },
     time: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
         notEmpty: {
           args: true,
-          msg: "Date is required"
+          msg: "time must be required"
         },
         isAfter: new Date()
       }
     },
-    description: {
-      type: DataTypes.STRING,
+    activity: {
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: {
           args: true,
-          msg: "Description is required"
-        },
+          msg: "Activity must be required"
+        }
       }
     },
     status: {
@@ -48,33 +55,24 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: "status is required"
-        },
-      }
+          msg: "Status must be required"
+        }
+      },
+      defaultValue: "active"
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
           args: true,
-          msg: "User ID is required"
-        },
-      }
-    },
-    dayId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Day Id is required"
-        },
+          msg: "User Id must be required"
+        }
       }
     }
   }, {
     sequelize,
-    modelName: 'Activity',
+    modelName: 'Meeting',
   });
-  return Activity;
+  return Meeting;
 };

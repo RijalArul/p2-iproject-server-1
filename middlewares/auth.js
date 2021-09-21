@@ -1,3 +1,4 @@
+const { Meeting } = require('../models');
 const jwt = require('jsonwebtoken');
 
 function authenthication(req, res, next) {
@@ -11,6 +12,29 @@ function authenthication(req, res, next) {
     }
 }
 
+async function authorization(req, res, next) {
+    try {
+        const meeting = await Meeting.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        
+        if(meeting) {
+            if(meeting.userId === req.userData.id) {
+                next()
+            } else {
+                throw ({ name: "ForbiddenAccess"})
+            }
+        } else {
+            throw ({ name: "DataNotFound"})
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
-    authenthication
+    authenthication,
+    authorization
 }

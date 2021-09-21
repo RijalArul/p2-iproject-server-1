@@ -17,24 +17,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Meeting.init({
-    date: {
-      type: DataTypes.DATEONLY,
+    schedule: {
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         notEmpty: {
           args: true,
           msg: "Date must be required"
         },
-      }
-    },
-    time: {
-      type: DataTypes.TIME,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "time must be required"
-        },
+        isAfter: {
+          args: new Date().toLocaleString(),
+          msg: 'Dont pick expired schedule'
+        }
       }
     },
     activity: {
@@ -46,17 +40,6 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Activity must be required"
         }
       }
-    },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Status must be required"
-        }
-      },
-      defaultValue: "active"
     },
     userId: {
       type: DataTypes.STRING,

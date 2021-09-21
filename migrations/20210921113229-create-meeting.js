@@ -8,21 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      date: {
+      schedule: {
         allowNull: false,
-        type: Sequelize.DATEONLY
-      },
-      time: {
-        allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.DATE
       },
       activity: {
         allowNull: false,
         type: Sequelize.TEXT
-      },
-      status: {
-        allowNull: false,
-        type: Sequelize.STRING
       },
       userId: {
         allowNull: false,

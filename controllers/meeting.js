@@ -1,6 +1,6 @@
 const { Meeting, User } = require('../models');
-const schedule = require('node-schedule');
 const dayjs  = require('dayjs');
+const { Op } = require('sequelize')
 
 class MeetingController {
     static async postMeeting(req, res, next) {
@@ -26,6 +26,29 @@ class MeetingController {
             const meeting = await Meeting.findAll({
                 where: {
                     userId: req.userData.id
+                },
+                include: {
+                    model: User,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt', 'password']
+                    }
+                }
+            });
+
+            res.status(200).json(meeting)
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async getUnexpiredMeeting(req, res) {
+        try {
+
+            const meeting = await Meeting.findAll({
+                where: {
+                    schedule: {
+                        [Op.gt]: new Date()
+                    }
                 },
                 include: {
                     model: User,

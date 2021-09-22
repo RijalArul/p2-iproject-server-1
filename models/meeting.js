@@ -31,6 +31,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    scheduleUnix: {
+      type: DataTypes.TIME,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Date Unix must be required"
+        }
+      }
+    },
     activity: {
       type: DataTypes.TEXT,
       allowNull: false,

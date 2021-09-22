@@ -68,19 +68,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Phone Number must be required"
-        },
-        min: {
-          args: [8],
-          msg: "Minimum 8 characters required in Phone Number"
-        }
-      }
+    idDiscord: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,

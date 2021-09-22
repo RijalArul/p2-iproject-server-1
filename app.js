@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const crons = require('./helpers/node-cron'); 
+
 
 require('dotenv').config();
 
@@ -11,8 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const routes = require('./routes/index');
+app.use(routes);
 
-app.use(routes)
+crons.start();
+
 
 app.listen(PORT, () => {
     console.log(`App listen on port ${PORT}`)

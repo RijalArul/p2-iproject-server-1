@@ -22,8 +22,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      phoneNumber: {
-        allowNull: false,
+      idDiscord: {
         type: Sequelize.STRING
       },
       createdAt: {

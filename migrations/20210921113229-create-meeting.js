@@ -12,6 +12,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      scheduleUnix: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       activity: {
         allowNull: false,
         type: Sequelize.TEXT

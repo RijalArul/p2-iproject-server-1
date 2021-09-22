@@ -1,10 +1,13 @@
 const { Meeting, User } = require('../models');
+const schedule = require('node-schedule');
+const dayjs  = require('dayjs');
 
 class MeetingController {
     static async postMeeting(req, res, next) {
         try {
             const payload = {
                 schedule: req.body.schedule,
+                scheduleUnix: dayjs(req.body.schedule).unix(),
                 activity: req.body.activity,
                 userId: req.userData.id
             }
@@ -65,6 +68,7 @@ class MeetingController {
 
             const payload = {
                 schedule: req.body.schedule,
+                scheduleUnix: dayjs(req.body.schedule).unix(),
                 activity: req.body.activity,
                 userId: req.userData.id
             }

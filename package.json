@@ -18,11 +18,16 @@
   },
   "homepage": "https://github.com/RijalArul/p2-iproject-server-1#readme",
   "dependencies": {
+    "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "date-and-time": "^2.0.0",
+    "dayjs": "^1.10.7",
+    "discord.js": "^13.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "node-cron": "^3.0.0",
+    "node-schedule": "^2.0.0",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5"
   },

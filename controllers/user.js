@@ -9,7 +9,7 @@ class UserController {
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
-                phoneNumber: req.body.phoneNumber
+                idDiscord: req.body.idDiscord
             }
 
             const create = await User.create(payload);
@@ -40,7 +40,7 @@ class UserController {
                 const matchPassword = checkPassword(payload.password, user.password);
 
                 if(matchPassword) {
-                    const access_token = generateToken({ id: user.id, email: user.email, username: user.username});
+                    const access_token = generateToken({ id: user.id, email: user.email, username: user.username, idDiscord: user.idDiscord});
                     res.status(200).json({
                         id: user.id,
                         email: user.email,

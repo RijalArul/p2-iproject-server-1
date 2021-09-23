@@ -24,7 +24,7 @@ const crons = cron.schedule('0 */1 * * * *', async () => {
             return axios({
                 url: `https://discord.com/api/v9/channels/890116074274701376/messages`,
                 headers: {
-                    "Authorization": process.env.CLIENT_TOKEN_DISCORD
+                    "Authorization": `Bot ${process.env.CLIENT_TOKEN_DISCORD}`
                 },
                 method: "POST",
                 data: {

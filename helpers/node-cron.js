@@ -21,6 +21,27 @@ const crons = cron.schedule('0 */1 * * * *', async () => {
 
     const promise = data.map((el) => {
         try {
+            const transporter = nodemailer.createTransport({
+                service: "hotmail",
+                auth: {
+                    user: process.env.OUTLOOK_USER,
+                    pass: process.env.OUTLOOK_PASS
+                }
+            })
+
+            const options = {
+                from: process.env.OUTLOOK_USER,
+                to: el.User.email,
+                subject: `Reminder`,
+                html: `<b>Halo <@${el.User.idDiscord}> kamu harus ${el.activity} ya di waktu ini ya ${el.schedule}</b>`,
+            }
+
+            const send = transporter.sendMail(options, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("Sent: ", info);
+            })
             return axios({
                 url: `https://discord.com/api/v9/channels/890116074274701376/messages`,
                 headers: {
@@ -28,7 +49,7 @@ const crons = cron.schedule('0 */1 * * * *', async () => {
                 },
                 method: "POST",
                 data: {
-                    "content": `Halo kamu harus ${el.activity} ya <@${el.User.idDiscord}>`
+                    "content": `Halo <@${el.User.idDiscord}> kamu harus ${el.activity} ya di waktu ini ya ${el.schedule} `
                 }
             })
 

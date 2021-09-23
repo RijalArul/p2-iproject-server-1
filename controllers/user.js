@@ -1,5 +1,8 @@
 const { checkPassword } = require('../helpers/bcrypt');
 const generateToken = require('../helpers/jwt');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID_GOOGLE);
+
 const { User } = require('../models');
 
 class UserController {
@@ -14,10 +17,16 @@ class UserController {
 
             const create = await User.create(payload);
 
-            res.status(201).json({
-                id: create.id,
-                email: create.email
-            })
+            if(create) {
+                const access_token = generateToken({ id: create.id, email: create.email, username: create.username, idDiscord: create.idDiscord});
+                res.status(201).json({
+                    id: create.id,
+                    email: create.email,
+                    idDiscord: create.idDiscord,
+                    access_token: access_token
+                })
+            }
+
         } catch (err) {
             next(err)
         }
@@ -52,6 +61,37 @@ class UserController {
             } else {
                 throw ({ name: "UserNotFound" });
             }
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async googleAuth(req, res, next) {
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.idToken,
+                audience: process.env.CLIENT_ID
+            })
+            const user = ticket.getPayload();
+
+            const body = {
+                username: user.given_name,
+                password: user.at_hash,
+                email: user.email,
+                idDiscord: process.env.CLIENT_TOKEN_DISCORD
+            }
+            const createAuth = await User.findOrCreate({
+                where: {
+                    email: body.email
+                },
+                defaults: body
+            });
+
+            const access_token = generateToken({ id: createAuth[0].id, email: createAuth[0].email, role: createAuth[0].username, idDiscord: createAuth[0].idDiscord })
+
+            res.status(201).json({
+                access_token: access_token
+            })
         } catch (err) {
             next(err)
         }

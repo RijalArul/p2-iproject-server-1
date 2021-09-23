@@ -1,5 +1,5 @@
 const { Meeting, User } = require('../models');
-const dayjs  = require('dayjs');
+const dayjs = require('dayjs');
 const { Op } = require('sequelize')
 
 class MeetingController {
@@ -46,6 +46,7 @@ class MeetingController {
 
             const meeting = await Meeting.findAll({
                 where: {
+                    userId: req.userData.id,
                     schedule: {
                         [Op.gt]: new Date()
                     }
@@ -55,7 +56,10 @@ class MeetingController {
                     attributes: {
                         exclude: ['createdAt', 'updatedAt', 'password']
                     }
-                }
+                },
+                order: [
+                    ['schedule', 'DESC']
+                ]
             });
 
             res.status(200).json(meeting)
@@ -131,6 +135,7 @@ class MeetingController {
             next(err)
         }
     }
+    
 }
 
 module.exports = MeetingController

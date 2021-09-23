@@ -1,17 +1,17 @@
-const axios = require('axios')
+const axios = require('axios');
+const dayjs = require('dayjs');
 var cron = require('node-cron');
 const { Op } = require('sequelize');
 const { Meeting, User } = require('../models')
+const nodemailer = require('nodemailer')
 
-const crons = cron.schedule('*/30 * * * *', async () => {
-    const thirtyMinutes = new Date(new Date().setDate(new Date().getMinutes() + 30));
+const crons = cron.schedule('0 */1 * * * *', async () => {
+    const currentUnix = dayjs().add(30, 'minute')
     const data = await Meeting.findAll({
-        where: {
-            schedule: {
-                [Op.gt]: new Date(),
-                [Op.lt]: thirtyMinutes
-            }
-        }, include: {
+        // where: {
+        //     scheduleUnix: currentUnix
+        // }, 
+        include: {
             model: User,
             attributes: {
                 exlcude: ['createdAt', 'updatedAt', 'password']
@@ -19,20 +19,26 @@ const crons = cron.schedule('*/30 * * * *', async () => {
         }
     });
 
-    for (let i = 0; i < data.length; i++) {
+    const promise = data.map((el) => {
+        try {
             return axios({
                 url: `https://discord.com/api/v9/channels/890116074274701376/messages`,
                 headers: {
-                    "Authorization": "Bot ODkwMTEyOTM1MzIwNTE4NzE2.YUrERQ.GRtECphOuFYADJJ0TeT5CI4Ke1s"
+                    "Authorization": process.env.CLIENT_TOKEN_DISCORD
                 },
                 method: "POST",
                 data: {
-                    "content": `Halo hari ini kamu harus ${data[i].activity} ya <@${data[i].User.idDiscord}>`
+                    "content": `Halo kamu harus ${el.activity} ya <@${el.User.idDiscord}>`
                 }
             })
-                
-    }
-    
+
+        } catch (err) {
+            console.log(err)
+        }
+    })
+
+    await Promise.All(promise)
+
 }, {
     scheduled: false,
     timezone: "Asia/Jakarta"
